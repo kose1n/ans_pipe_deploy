@@ -13,8 +13,21 @@ node {
             sh "${MvnCMD} clean package"
       }
       
-      stage('Build Docker'){
+      stage('Build Docker img'){
           sh 'docker build -t kammana/my-app:1.0 .'
             #openjdk8, git, openssh, mercurial, subversion procps tomcat, path and td tp
+      }
+      
+      stage('Login Dhub'){
+           steps {
+                echo "docker login and push"
+                withCredentials([usernamePassword(credentialsId: 'dockerhub_kose1n', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    sh "docker login -u $USERNAME -p $PASSWORD"
+                }
+            }
+      }
+     
+      stage('Push Docker img') {
+          
       }
 }
