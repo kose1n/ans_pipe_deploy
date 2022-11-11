@@ -30,4 +30,11 @@ node {
           sh 'docker push kose1n/app-maven-docker:1.1'
       }
       
+      stage('Run con on serv'){
+          def dockerRun = 'docker run -p 8080:8080 -d --name app-maven-docker kose1n/app-maven-docker:1.1'
+            sshagent([dev-server]) {
+                  sh "ssh -o StrictHostKeyChecking=no denis@192.168.1.70 $dockerRun"
+      
+            }
+      }
 }
