@@ -12,4 +12,9 @@ node {
           def MvnCMD = "${MvnHome}/bin/mvn"
             sh "${MvnCMD} clean package"
       }
+      
+      stage('Build Docker'){
+          sh 'docker build -t kammana/my-app:1.0 .'
+            #openjdk8, git, openssh, mercurial, subversion procps tomcat, path and td tp
+      }
 }
