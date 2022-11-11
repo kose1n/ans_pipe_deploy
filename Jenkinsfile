@@ -1,4 +1,4 @@
-#wlth maven build java 
+#wlth maven build some java app
 
 
 node {
