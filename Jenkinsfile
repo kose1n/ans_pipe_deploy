@@ -18,13 +18,16 @@ node {
             #openjdk8, git, openssh, mercurial, subversion procps tomcat, path and td tp
       }
       
+      # usernameVariable USERNAME passwordVariable PASSWORD
       stage('Login Dhub'){
-                withCredentials([usernamePassword(credentialsId: 'dockerhub_kose1n', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                    sh "docker login -u $USERNAME -p $PASSWORD"
+                withCredentials([usernamePassword(credentialsId: 'dockerhub_kose1n')]) {
+                      sh "docker login -u kose1n -p ${dockerhub_kose1n}"
+                  
             }
       }
      
       stage('Push Docker img') {
           sh 'docker push kose1n/app-maven-docker:1.1'
       }
+      
 }
