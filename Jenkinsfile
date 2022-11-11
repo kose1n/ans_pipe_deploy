@@ -15,7 +15,7 @@ pipeline {
         stage('Build Docker img') {
             steps {
                   sh 'docker build -t kammana/my-app:1.0 .'
-                  //openjdk8, git, openssh, mercurial, subversion procps tomcat, path and td tp
+                  #openjdk8, git, openssh, mercurial, subversion procps tomcat, path and td tp
                 }
             }
         }
@@ -26,18 +26,19 @@ pipeline {
                       sh "docker login -u kose1n -p ${dockerhub_kose1n}"
             }
         }
-        stage('Build Docker img') {
+        stage('Push Docker img') {
             steps {
-                  sh 'docker build -t kammana/my-app:1.0 .'
+                  sh 'docker push kose1n/app-maven-docker:1.1'
                   //openjdk8, git, openssh, mercurial, subversion procps tomcat, path and td tp
                 }
             }
         }
-              sh 'docker push kose1n/app-maven-docker:1.1'
-         stage('Build Docker img') {
+              
+         stage('Run con on serv') {
             steps {
-                  sh 'docker build -t kammana/my-app:1.0 .'
-                  //openjdk8, git, openssh, mercurial, subversion procps tomcat, path and td tp
+                  def dockerRun = 'docker run -p 8080:8080 -d --name app-maven-docker kose1n/app-maven-docker:1.1'
+                  sshagent([dev-server]) {
+                  sh "ssh -o StrictHostKeyChecking=no denis@192.168.1.70 $dockerRun"
                 }
             }
         }
